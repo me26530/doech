@@ -1,4 +1,4 @@
-name = "doexjdkch"
+name = "dxjdkch"
 main = "worker.js"
 type = "module"
 compatibility_date = "2023-01-01"
