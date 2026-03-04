@@ -1,4 +1,4 @@
-name = "ssech"
+name = "doexjdkch"
 main = "worker.js"
 type = "module"
 compatibility_date = "2023-01-01"
@@ -7,9 +7,9 @@ compatibility_date = "2023-01-01"
 # 这里的配置主要是为了绑定 DO
 
 [[durable_objects.bindings]]
-name = "KX_A"   # Worker 中调用的变量名
-class_name = "kdjdo" # DO 类名
+name = "SKX_ALC"   # Worker 中调用的变量名
+class_name = "skdolw" # DO 类名
 
 [[migrations]]
 tag = "v1"
-new_sqlite_classes = ["kdjdo"]
+new_sqlite_classes = ["skdolw"]
