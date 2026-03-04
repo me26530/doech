@@ -1,0 +1,14 @@
+name = "dossech"
+main = "worker.js"
+compatibility_date = "2023-01-01"
+
+# 开启 ECH 支持 (需要在 Cloudflare 控制台面板 Network 页面开启 ECH)
+# 这里的配置主要是为了绑定 DO
+
+[[durable_objects.bindings]]
+name = "KX_A"   # Worker 中调用的变量名
+class_name = "kdjdo" # DO 类名
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["kdjdo"]
