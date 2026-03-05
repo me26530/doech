@@ -12,12 +12,10 @@ export default {
       return new Response("Expected WebSocket", { status: 426 });
     }
 
-    // token 校验
     if (token && request.headers.get("Sec-WebSocket-Protocol") !== token) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    // 随机分片 DO
     const shard = Math.floor(Math.random() * SHARD_COUNT);
     const id = env.TUNNEL_PROXY.idFromName(`pool-${shard}`);
     const stub = env.TUNNEL_PROXY.get(id);
