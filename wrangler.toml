@@ -1,15 +1,12 @@
-name = "dxjdkch"
+name = "tunnelproxy"
 main = "worker.js"
 type = "module"
-compatibility_date = "2023-01-01"
-
-# 开启 ECH 支持 (需要在 Cloudflare 控制台面板 Network 页面开启 ECH)
-# 这里的配置主要是为了绑定 DO
+compatibility_date = "2024-01-01"
 
 [[durable_objects.bindings]]
-name = "SKX_ALC"   # Worker 中调用的变量名
-class_name = "skdolw" # DO 类名
+name = "TUNNEL_PROXY"
+class_name = "TunnelProxy"
 
 [[migrations]]
 tag = "v1"
-new_sqlite_classes = ["skdolw"]
+new_classes = ["TunnelProxy"]
