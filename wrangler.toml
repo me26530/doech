@@ -1,6 +1,5 @@
-name = "akkdf"
+name = "juodt"
 main = "worker.js"
-type = "module"
 compatibility_date = "2024-01-01"
 
 [[durable_objects.bindings]]
@@ -9,4 +8,4 @@ class_name = "TunnelProxy"
 
 [[migrations]]
 tag = "v1"
-new_classes = ["TunnelProxy"]
+new_sqlite_classes = ["TunnelProxy"]
