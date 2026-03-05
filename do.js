@@ -1,1 +1,144 @@
-const _0x452dc1=_0x58e7;function _0x58e7(_0x6a4c9c,_0x54332e){const _0x3d4917=_0x27d8();return _0x58e7=function(_0x4e2c9e,_0x10bc67){_0x4e2c9e=_0x4e2c9e-0x197;let _0xf78497=_0x3d4917[_0x4e2c9e];return _0xf78497;},_0x58e7(_0x6a4c9c,_0x54332e);}(function(_0x9fd959,_0x55c401){const _0x35b71e=_0x58e7,_0x1e8f5a=_0x9fd959();while(!![]){try{const _0x180e18=parseInt(_0x35b71e(0x1d1))/0x1+-parseInt(_0x35b71e(0x1d8))/0x2*(parseInt(_0x35b71e(0x1a1))/0x3)+-parseInt(_0x35b71e(0x19e))/0x4+-parseInt(_0x35b71e(0x1ad))/0x5*(parseInt(_0x35b71e(0x1ce))/0x6)+parseInt(_0x35b71e(0x1c2))/0x7*(parseInt(_0x35b71e(0x1b0))/0x8)+parseInt(_0x35b71e(0x1af))/0x9+-parseInt(_0x35b71e(0x1a3))/0xa*(-parseInt(_0x35b71e(0x199))/0xb);if(_0x180e18===_0x55c401)break;else _0x1e8f5a['push'](_0x1e8f5a['shift']());}catch(_0x5e9e3a){_0x1e8f5a['push'](_0x1e8f5a['shift']());}}}(_0x27d8,0xe8828));const _0x32d7a9=(function(){let _0x11151a=!![];return function(_0x25f960,_0x4edee8){const _0x331d77=_0x11151a?function(){const _0x5e1ecd=_0x58e7;if(_0x4edee8){const _0x150781=_0x4edee8[_0x5e1ecd(0x1ca)](_0x25f960,arguments);return _0x4edee8=null,_0x150781;}}:function(){};return _0x11151a=![],_0x331d77;};}()),_0x2e3440=_0x32d7a9(this,function(){const _0x42ccc2=_0x58e7;return _0x2e3440[_0x42ccc2(0x198)]()['search'](_0x42ccc2(0x1a5))[_0x42ccc2(0x198)]()[_0x42ccc2(0x1b2)](_0x2e3440)['search']('(((.+)+)+)+$');});_0x2e3440();const _0x10bc67=(function(){let _0x5652ee=!![];return function(_0x520bfd,_0xa4dc77){const _0x16f1f0=_0x5652ee?function(){const _0x35a7d0=_0x58e7;if(_0xa4dc77){const _0x3cd309=_0xa4dc77[_0x35a7d0(0x1ca)](_0x520bfd,arguments);return _0xa4dc77=null,_0x3cd309;}}:function(){};return _0x5652ee=![],_0x16f1f0;};}()),_0x4e2c9e=_0x10bc67(this,function(){const _0x2d839d=_0x58e7;let _0x587ce6;try{const _0xe57b92=Function(_0x2d839d(0x1cd)+_0x2d839d(0x1da)+');');_0x587ce6=_0xe57b92();}catch(_0xe3363c){_0x587ce6=window;}const _0x41da5f=_0x587ce6['console']=_0x587ce6[_0x2d839d(0x1c1)]||{},_0x57fcfc=[_0x2d839d(0x1c6),_0x2d839d(0x1be),'info','error','exception',_0x2d839d(0x1b5),_0x2d839d(0x1c4)];for(let _0x34e05c=0x0;_0x34e05c<_0x57fcfc['length'];_0x34e05c++){const _0x35db3c=_0x10bc67[_0x2d839d(0x1b2)][_0x2d839d(0x1c8)][_0x2d839d(0x1ae)](_0x10bc67),_0x26d6e2=_0x57fcfc[_0x34e05c],_0x3c1344=_0x41da5f[_0x26d6e2]||_0x35db3c;_0x35db3c[_0x2d839d(0x1c9)]=_0x10bc67[_0x2d839d(0x1ae)](_0x10bc67),_0x35db3c[_0x2d839d(0x198)]=_0x3c1344[_0x2d839d(0x198)]['bind'](_0x3c1344),_0x41da5f[_0x26d6e2]=_0x35db3c;}});_0x4e2c9e();import{connect}from'cloudflare:sockets';const WS_READY_STATE_OPEN=0x1,WS_READY_STATE_CLOSING=0x2,CF_FALLBACK_IPS=[_0x452dc1(0x1a0)],encoder=new TextEncoder();export class skdolw{constructor(_0x2f8e62,_0x30d94f){const _0x395b44=_0x452dc1;this['state']=_0x2f8e62,this[_0x395b44(0x1a8)]=_0x30d94f;}async[_0x452dc1(0x1a4)](_0xb73ede){const _0x465e37=_0x452dc1,_0x33069c=new WebSocketPair(),[_0x27e82b,_0x5afb55]=Object['values'](_0x33069c);return _0x5afb55[_0x465e37(0x1ab)](),this['handleSession'](_0x5afb55)[_0x465e37(0x1c7)](()=>this[_0x465e37(0x1b8)](_0x5afb55)),new Response(null,{'status':0x65,'webSocket':_0x27e82b});}async[_0x452dc1(0x19d)](_0x956c8e){const _0x35945b=_0x452dc1;let _0x2e19e7,_0x1b8f63,_0x3a6bd3,_0x355f02=![];const _0x29f7c1=()=>{const _0x2c6eb5=_0x58e7;if(_0x355f02)return;_0x355f02=!![];try{_0x1b8f63?.[_0x2c6eb5(0x1cf)]();}catch{}try{_0x3a6bd3?.[_0x2c6eb5(0x1cf)]();}catch{}try{_0x2e19e7?.[_0x2c6eb5(0x1bc)]();}catch{}_0x1b8f63=null,_0x3a6bd3=null,_0x2e19e7=null,this[_0x2c6eb5(0x1b8)](_0x956c8e);},_0x48df29=async()=>{const _0x49ffe9=_0x58e7;try{while(!_0x355f02&&_0x3a6bd3){const {done:_0x53d1bb,value:_0x5108fe}=await _0x3a6bd3[_0x49ffe9(0x19a)]();if(_0x53d1bb)break;if(_0x956c8e['readyState']!==WS_READY_STATE_OPEN)break;if(_0x5108fe?.[_0x49ffe9(0x1bb)]>0x0)_0x956c8e[_0x49ffe9(0x1cb)](_0x5108fe);}}catch{}if(!_0x355f02){try{_0x956c8e[_0x49ffe9(0x1cb)](_0x49ffe9(0x1b1));}catch{}_0x29f7c1();}},_0x309216=(_0x201488,_0x409df2=null)=>{const _0x52c1cc=_0x58e7;if(_0x201488['startsWith']('[')){const _0x2bdd8c=_0x201488['indexOf'](']');if(_0x2bdd8c===-0x1)return{'host':_0x201488,'port':_0x409df2};const _0x5af357=_0x201488[_0x52c1cc(0x1a9)](0x1,_0x2bdd8c),_0x2b21f7=_0x201488[_0x52c1cc(0x1a9)](_0x2bdd8c+0x1);if(_0x2b21f7[_0x52c1cc(0x1c3)](':')){const _0x3f3773=parseInt(_0x2b21f7[_0x52c1cc(0x1a9)](0x1),0xa);return{'host':_0x5af357,'port':Number[_0x52c1cc(0x19b)](_0x3f3773)?_0x409df2:_0x3f3773};}return{'host':_0x5af357,'port':_0x409df2};}const _0x2555bd=_0x201488['lastIndexOf'](':'),_0x48f610=(_0x201488[_0x52c1cc(0x1ac)](/:/g)||[])[_0x52c1cc(0x1b7)];if(_0x48f610>0x1)return{'host':_0x201488,'port':_0x409df2};if(_0x2555bd!==-0x1){const _0x52edbe=parseInt(_0x201488[_0x52c1cc(0x1a9)](_0x2555bd+0x1),0xa);if(!Number['isNaN'](_0x52edbe))return{'host':_0x201488[_0x52c1cc(0x1a9)](0x0,_0x2555bd),'port':_0x52edbe};}return{'host':_0x201488,'port':_0x409df2};},_0x269c37=_0x35353f=>{const _0x1028bd=_0x58e7,_0x4e315a=_0x35353f?.['message']?.[_0x1028bd(0x1b4)]()||'';return _0x4e315a[_0x1028bd(0x1d5)](_0x1028bd(0x1a7))||_0x4e315a[_0x1028bd(0x1d5)]('cannot\x20connect')||_0x4e315a[_0x1028bd(0x1d5)](_0x1028bd(0x1bd));},_0x421f98=async(_0xfff755,_0x131245)=>{const _0x512a6c=_0x58e7,{host:_0x2a63c4,port:_0x932e6}=_0x309216(_0xfff755);if(!_0x2a63c4||!_0x932e6)throw new Error(_0x512a6c(0x1cc));const _0x38ee86=[null,...CF_FALLBACK_IPS];for(let _0x1f1bbc=0x0;_0x1f1bbc<_0x38ee86['length'];_0x1f1bbc++){try{const _0x447dff=_0x38ee86[_0x1f1bbc];let _0xabcd3c,_0xbd756a;if(_0x447dff){const _0x24431a=_0x309216(_0x447dff,_0x932e6);_0xabcd3c=_0x24431a[_0x512a6c(0x1b9)],_0xbd756a=_0x24431a[_0x512a6c(0x1d2)];}else _0xabcd3c=_0x2a63c4,_0xbd756a=_0x932e6;_0x2e19e7=connect({'hostname':_0xabcd3c,'port':_0xbd756a});if(_0x2e19e7['opened'])await _0x2e19e7['opened'];_0x1b8f63=_0x2e19e7[_0x512a6c(0x1d9)][_0x512a6c(0x1c0)](),_0x3a6bd3=_0x2e19e7[_0x512a6c(0x197)][_0x512a6c(0x1c5)]();_0x131245&&await _0x1b8f63[_0x512a6c(0x1b3)](encoder[_0x512a6c(0x19c)](_0x131245));_0x956c8e[_0x512a6c(0x1cb)](_0x512a6c(0x1d6)),_0x48df29();return;}catch(_0xcbdd03){try{_0x1b8f63?.['releaseLock']();}catch{}try{_0x3a6bd3?.['releaseLock']();}catch{}try{_0x2e19e7?.['close']();}catch{}_0x1b8f63=null,_0x3a6bd3=null,_0x2e19e7=null;if(!_0x269c37(_0xcbdd03)||_0x1f1bbc===_0x38ee86[_0x512a6c(0x1b7)]-0x1)throw _0xcbdd03;}}};_0x956c8e[_0x35945b(0x1aa)](_0x35945b(0x19f),async _0x21524f=>{const _0x3679bb=_0x35945b;if(_0x355f02)return;try{const _0x5d2e46=_0x21524f['data'];if(typeof _0x5d2e46===_0x3679bb(0x1d7)){if(_0x5d2e46[_0x3679bb(0x1c3)](_0x3679bb(0x1d0))){const _0x3754ca=_0x5d2e46[_0x3679bb(0x1a6)]('|',0x8);if(_0x3754ca<0x0)throw new Error(_0x3679bb(0x1d3));await _0x421f98(_0x5d2e46['substring'](0x8,_0x3754ca),_0x5d2e46[_0x3679bb(0x1a9)](_0x3754ca+0x1));}else{if(_0x5d2e46[_0x3679bb(0x1c3)](_0x3679bb(0x1bf)))_0x1b8f63&&await _0x1b8f63[_0x3679bb(0x1b3)](encoder[_0x3679bb(0x19c)](_0x5d2e46[_0x3679bb(0x1a9)](0x5)));else _0x5d2e46==='CLOSE'&&_0x29f7c1();}}else _0x5d2e46 instanceof ArrayBuffer&&_0x1b8f63&&await _0x1b8f63['write'](new Uint8Array(_0x5d2e46));}catch(_0xbbc6a7){try{_0x956c8e[_0x3679bb(0x1cb)](_0x3679bb(0x1b6)+_0xbbc6a7['message']);}catch{}_0x29f7c1();}}),_0x956c8e[_0x35945b(0x1aa)](_0x35945b(0x1bc),_0x29f7c1),_0x956c8e[_0x35945b(0x1aa)](_0x35945b(0x1ba),_0x29f7c1);}['safeCloseWebSocket'](_0x47ab41){const _0x3fd190=_0x452dc1;try{(_0x47ab41[_0x3fd190(0x1d4)]===WS_READY_STATE_OPEN||_0x47ab41[_0x3fd190(0x1d4)]===WS_READY_STATE_CLOSING)&&_0x47ab41[_0x3fd190(0x1bc)](0x3e8,_0x3fd190(0x1a2));}catch{}}}function _0x27d8(){const _0x5479cf=['env','substring','addEventListener','accept','match','5nLGEOe','bind','2605941hwkqJn','32440FaJTkD','CLOSE','constructor','write','toLowerCase','table','ERROR:','length','safeCloseWebSocket','host','error','byteLength','close','cloudflare','warn','DATA:','getWriter','console','3024LQnUxz','startsWith','trace','getReader','log','catch','prototype','__proto__','apply','send','Invalid\x20CONNECT\x20target,\x20expected\x20host:port','return\x20(function()\x20','8920878hroyKy','releaseLock','CONNECT:','1244286YoiYfZ','port','Invalid\x20CONNECT\x20frame','readyState','includes','CONNECTED','string','548754AHdckY','writable','{}.constructor(\x22return\x20this\x22)(\x20)','readable','toString','38742eNjVHm','read','isNaN','encode','handleSession','3361580dllLIP','message','proxyip.cmliussss.net:443','9OqGrbw','Server\x20closed','2320VJYcdW','fetch','(((.+)+)+)+$','indexOf','proxy\x20request'];_0x27d8=function(){return _0x5479cf;};return _0x27d8();}
+import { connect } from 'cloudflare:sockets';
+
+const encoder = new TextEncoder();
+const WS_OPEN = 1;
+const WS_CLOSING = 2;
+
+const IDLE_TIMEOUT = 30 * 1000; // 30 秒无数据自动关闭
+const CHECK_INTERVAL = 10 * 1000; // 每 10 秒检查一次
+
+export class TunnelProxy {
+  constructor(state, env) {
+    this.state = state;
+    this.env = env;
+  }
+
+  async fetch(request) {
+    const pair = new WebSocketPair();
+    const [client, server] = Object.values(pair);
+    server.accept();
+
+    // 每个连接独立处理
+    this.handleSession(server);
+
+    return new Response(null, { status: 101, webSocket: client });
+  }
+
+  async handleSession(webSocket) {
+    let remoteSocket = null;
+    let remoteWriter = null;
+    let remoteReader = null;
+    let closed = false;
+
+    // 记录最后活跃时间
+    let lastActive = Date.now();
+
+    const cleanup = () => {
+      if (closed) return;
+      closed = true;
+
+      try { remoteWriter?.releaseLock(); } catch {}
+      try { remoteReader?.releaseLock(); } catch {}
+      try { remoteSocket?.close(); } catch {}
+      this.safeClose(webSocket);
+    };
+
+    // 定时检查是否空闲
+    const idleChecker = setInterval(() => {
+      if (closed) {
+        clearInterval(idleChecker);
+        return;
+      }
+      if (Date.now() - lastActive > IDLE_TIMEOUT) {
+        cleanup();
+        clearInterval(idleChecker);
+      }
+    }, CHECK_INTERVAL);
+
+    webSocket.addEventListener('close', () => {
+      cleanup();
+      clearInterval(idleChecker);
+    });
+
+    webSocket.addEventListener('error', () => {
+      cleanup();
+      clearInterval(idleChecker);
+    });
+
+    webSocket.addEventListener('message', async (event) => {
+      if (closed) return;
+
+      // 更新活跃时间
+      lastActive = Date.now();
+
+      try {
+        const data = event.data;
+
+        // CONNECT:host:port|initialData
+        if (typeof data === 'string' && data.startsWith('CONNECT:')) {
+          const sep = data.indexOf('|', 8);
+          if (sep < 0) {
+            cleanup();
+            return;
+          }
+
+          const target = data.substring(8, sep);
+          const initial = data.substring(sep + 1);
+
+          const [host, portStr] = target.split(':');
+          const port = parseInt(portStr, 10);
+
+          remoteSocket = connect({ hostname: host, port });
+          remoteWriter = remoteSocket.writable.getWriter();
+          remoteReader = remoteSocket.readable.getReader();
+
+          // 发送初始数据
+          if (initial) {
+            await remoteWriter.write(encoder.encode(initial));
+          }
+
+          // TCP → WebSocket
+          (async () => {
+            try {
+              while (true) {
+                const { value, done } = await remoteReader.read();
+                if (done) break;
+
+                // 更新活跃时间
+                lastActive = Date.now();
+
+                if (webSocket.readyState === WS_OPEN) {
+                  webSocket.send(value);
+                } else {
+                  break;
+                }
+              }
+            } catch {
+              // ignore
+            }
+            cleanup();
+          })();
+
+          return;
+        }
+
+        // 普通数据 → 写入 TCP
+        if (remoteWriter) {
+          const payload =
+            typeof data === 'string' ? encoder.encode(data) : data;
+          await remoteWriter.write(payload);
+        }
+      } catch {
+        cleanup();
+      }
+    });
+  }
+
+  safeClose(ws) {
+    try {
+      if (ws.readyState === WS_OPEN || ws.readyState === WS_CLOSING) {
+        ws.close(1000, 'Closed');
+      }
+    } catch {}
+  }
+}
