@@ -1,24 +1,10 @@
-import { connect } from 'cloudflare:sockets';
+import { connect } from "cloudflare:sockets";
 
+const WS_READY_STATE_OPEN = 1;
+const WS_READY_STATE_CLOSING = 2;
+
+const CF_FALLBACK_IPS = ["proxyip.cmliussss.net:443"];
 const encoder = new TextEncoder();
-const WS_OPEN = 1;
-const WS_CLOSING = 2;
-
-// fallback IP 列表
-const CF_FALLBACK_IPS = [
-  "proxyip.cmliussss.net:443"
-];
-
-// 空闲关闭配置
-const IDLE_TIMEOUT = 30 * 1000; // 30 秒无活动自动关闭
-const CHECK_INTERVAL = 10 * 1000; // 每 10 秒检查一次
-
-// 心跳配置
-const HEARTBEAT_INTERVAL = 15 * 1000; // 每 15 秒发送一次 PING
-const HEARTBEAT_TIMEOUT = 20 * 1000;  // 20 秒没收到 PONG 关闭
-
-// TCP 写入合并配置
-const FLUSH_INTERVAL = 5; // 5ms 内的写入合并成一次
 
 export class TunnelProxy {
   constructor(state, env) {
@@ -27,192 +13,182 @@ export class TunnelProxy {
   }
 
   async fetch(request) {
-    const pair = new WebSocketPair();
-    const [client, server] = Object.values(pair);
+    const webSocketPair = new WebSocketPair();
+    const [client, server] = Object.values(webSocketPair);
+
     server.accept();
+    this.handleSession(server).catch(() => this.safeCloseWebSocket(server));
 
-    this.handleSession(server);
-
-    return new Response(null, { status: 101, webSocket: client });
+    return new Response(null, {
+      status: 101,
+      webSocket: client,
+    });
   }
 
   async handleSession(webSocket) {
-    let remoteSocket = null;
-    let remoteWriter = null;
-    let remoteReader = null;
-    let closed = false;
-
-    let lastActive = Date.now();
-    let lastPong = Date.now();
-
-    // 写入合并缓冲区
-    let writeBuffer = [];
-    let flushScheduled = false;
-
-    const flush = async () => {
-      if (closed || !remoteWriter || writeBuffer.length === 0) return;
-      const merged = mergeBuffers(writeBuffer);
-      writeBuffer = [];
-      flushScheduled = false;
-      try {
-        await remoteWriter.write(merged);
-      } catch {
-        cleanup();
-      }
-    };
-
-    const scheduleFlush = () => {
-      if (!flushScheduled) {
-        flushScheduled = true;
-        setTimeout(flush, FLUSH_INTERVAL);
-      }
-    };
+    let remoteSocket;
+    let remoteWriter;
+    let remoteReader;
+    let isClosed = false;
 
     const cleanup = () => {
-      if (closed) return;
-      closed = true;
-
+      if (isClosed) return;
+      isClosed = true;
       try { remoteWriter?.releaseLock(); } catch {}
       try { remoteReader?.releaseLock(); } catch {}
       try { remoteSocket?.close(); } catch {}
-      safeClose(webSocket);
+      remoteWriter = null;
+      remoteReader = null;
+      remoteSocket = null;
+      this.safeCloseWebSocket(webSocket);
     };
 
-    // 空闲检查
-    const idleChecker = setInterval(() => {
-      if (closed) {
-        clearInterval(idleChecker);
-        return;
-      }
-      if (Date.now() - lastActive > IDLE_TIMEOUT) {
-        cleanup();
-        clearInterval(idleChecker);
-      }
-    }, CHECK_INTERVAL);
-
-    // 心跳：服务端定期发 PING，客户端回 PONG
-    const heartbeat = setInterval(() => {
-      if (closed) {
-        clearInterval(heartbeat);
-        return;
-      }
-      if (Date.now() - lastPong > HEARTBEAT_TIMEOUT) {
-        cleanup();
-        clearInterval(heartbeat);
-        return;
-      }
+    const pumpRemoteToWebSocket = async () => {
       try {
-        if (webSocket.readyState === WS_OPEN) {
-          webSocket.send("PING");
+        while (!isClosed && remoteReader) {
+          const { done, value } = await remoteReader.read();
+          if (done) break;
+          if (webSocket.readyState !== WS_READY_STATE_OPEN) break;
+          if (value?.byteLength > 0) webSocket.send(value);
         }
       } catch {}
-    }, HEARTBEAT_INTERVAL);
 
-    webSocket.addEventListener("close", () => {
-      cleanup();
-      clearInterval(idleChecker);
-      clearInterval(heartbeat);
-    });
+      if (!isClosed) {
+        try { webSocket.send("CLOSE"); } catch {}
+        cleanup();
+      }
+    };
 
-    webSocket.addEventListener("error", () => {
-      cleanup();
-      clearInterval(idleChecker);
-      clearInterval(heartbeat);
-    });
+    const parseAddress = (addr, defaultPort = null) => {
+      // IPv6: [::1]:443
+      if (addr.startsWith("[")) {
+        const end = addr.indexOf("]");
+        if (end === -1) return { host: addr, port: defaultPort };
 
-    webSocket.addEventListener("message", async (event) => {
-      if (closed) return;
+        const host = addr.substring(1, end);
+        const portPart = addr.substring(end + 1);
 
-      const data = event.data;
-      lastActive = Date.now();
-
-      // 心跳响应
-      if (data === "PONG") {
-        lastPong = Date.now();
-        return;
+        if (portPart.startsWith(":")) {
+          const port = parseInt(portPart.substring(1), 10);
+          return { host, port: Number.isNaN(port) ? defaultPort : port };
+        }
+        return { host, port: defaultPort };
       }
 
-      try {
-        // 首帧：CONNECT:host:port|initialData
-        if (typeof data === "string" && data.startsWith("CONNECT:")) {
-          const sep = data.indexOf("|", 8);
-          if (sep < 0) {
-            cleanup();
-            return;
+      // IPv4 / hostname: host:port
+      const sep = addr.lastIndexOf(":");
+      const colonCount = (addr.match(/:/g) || []).length;
+      if (colonCount > 1) {
+        // 可能是未加 [] 的 IPv6
+        return { host: addr, port: defaultPort };
+      }
+
+      if (sep !== -1) {
+        const port = parseInt(addr.substring(sep + 1), 10);
+        if (!Number.isNaN(port)) {
+          return { host: addr.substring(0, sep), port };
+        }
+      }
+
+      return { host: addr, port: defaultPort };
+    };
+
+    const isCFError = (err) => {
+      const msg = err?.message?.toLowerCase?.() || "";
+      return (
+        msg.includes("proxy request") ||
+        msg.includes("cannot connect") ||
+        msg.includes("cloudflare")
+      );
+    };
+
+    const connectToRemote = async (targetAddr, firstFrameData) => {
+      const { host: targetHost, port: targetPort } = parseAddress(targetAddr);
+      if (!targetHost || !targetPort) {
+        throw new Error("Invalid CONNECT target, expected host:port");
+      }
+
+      const attempts = [null, ...CF_FALLBACK_IPS];
+
+      for (let i = 0; i < attempts.length; i++) {
+        try {
+          const attempt = attempts[i];
+          let hostname;
+          let port;
+
+          if (attempt) {
+            const parsed = parseAddress(attempt, targetPort);
+            hostname = parsed.host;
+            port = parsed.port;
+          } else {
+            hostname = targetHost;
+            port = targetPort;
           }
 
-          let target = data.substring(8, sep);
-          const initial = data.substring(sep + 1);
+          remoteSocket = connect({ hostname, port });
+          if (remoteSocket.opened) await remoteSocket.opened;
 
-          let [host, portStr] = target.split(":");
-          let port = parseInt(portStr, 10);
-
-          if (!host || !port) {
-            [host, port] = CF_FALLBACK_IPS[0].split(":");
-            port = parseInt(port, 10);
-          }
-
-          remoteSocket = connect({ hostname: host, port });
           remoteWriter = remoteSocket.writable.getWriter();
           remoteReader = remoteSocket.readable.getReader();
 
-          if (initial) {
-            await remoteWriter.write(encoder.encode(initial));
+          if (firstFrameData) {
+            await remoteWriter.write(encoder.encode(firstFrameData));
           }
 
-          // TCP → WebSocket
-          (async () => {
-            try {
-              while (true) {
-                const { value, done } = await remoteReader.read();
-                if (done) break;
-
-                lastActive = Date.now();
-
-                if (webSocket.readyState === WS_OPEN) {
-                  webSocket.send(value);
-                } else {
-                  break;
-                }
-              }
-            } catch {}
-            cleanup();
-          })();
-
+          webSocket.send("CONNECTED");
+          pumpRemoteToWebSocket();
           return;
-        }
+        } catch (err) {
+          try { remoteWriter?.releaseLock(); } catch {}
+          try { remoteReader?.releaseLock(); } catch {}
+          try { remoteSocket?.close(); } catch {}
+          remoteWriter = null;
+          remoteReader = null;
+          remoteSocket = null;
 
-        // 后续数据：写入合并缓冲区 → TCP
-        if (remoteWriter) {
-          const payload =
-            typeof data === "string" ? encoder.encode(data) : data;
-          writeBuffer.push(payload);
-          scheduleFlush();
+          if (!isCFError(err) || i === attempts.length - 1) {
+            throw err;
+          }
         }
-      } catch {
+      }
+    };
+
+    webSocket.addEventListener("message", async (event) => {
+      if (isClosed) return;
+
+      try {
+        const data = event.data;
+
+        if (typeof data === "string") {
+          if (data.startsWith("CONNECT:")) {
+            const sep = data.indexOf("|", 8);
+            if (sep < 0) throw new Error("Invalid CONNECT frame");
+            await connectToRemote(data.substring(8, sep), data.substring(sep + 1));
+          } else if (data.startsWith("DATA:")) {
+            if (remoteWriter) {
+              await remoteWriter.write(encoder.encode(data.substring(5)));
+            }
+          } else if (data === "CLOSE") {
+            cleanup();
+          }
+        } else if (data instanceof ArrayBuffer && remoteWriter) {
+          await remoteWriter.write(new Uint8Array(data));
+        }
+      } catch (err) {
+        try { webSocket.send("ERROR:" + (err?.message || "Unknown")); } catch {}
         cleanup();
       }
     });
-  }
-}
 
-// 合并多个 Uint8Array
-function mergeBuffers(buffers) {
-  let total = 0;
-  for (const b of buffers) total += b.length;
-  const merged = new Uint8Array(total);
-  let offset = 0;
-  for (const b of buffers) {
-    merged.set(b, offset);
-    offset += b.length;
+    webSocket.addEventListener("close", cleanup);
+    webSocket.addEventListener("error", cleanup);
   }
-  return merged;
-}
 
-function safeClose(ws) {
-  try {
-    if (ws.readyState === WS_OPEN || ws.readyState === WS_CLOSING) {
-      ws.close(1000, "Closed");
-    }
-  } catch {}
+  safeCloseWebSocket(ws) {
+    try {
+      if (ws.readyState === WS_READY_STATE_OPEN || ws.readyState === WS_READY_STATE_CLOSING) {
+        ws.close(1000, "Server closed");
+      }
+    } catch {}
+  }
 }
